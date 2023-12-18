@@ -6,7 +6,7 @@ tic;
 
 % Lista de nombres de imágenes (asegúrate de que estén en el mismo directorio
 % que tu script o proporciona rutas completas)
-nombres_imagenes = {'prueba.jpg', 'prueba2.jpg', 'prueba3.jpg'};
+nombres_imagenes = {'foto1.jpg', 'foto2.jpeg', 'foto3.jpg', 'foto4.jpg'};
 
 % Inicializar matrices para almacenar datos
 tamanos_archivos = zeros(1, numel(nombres_imagenes));
@@ -66,15 +66,22 @@ disp('Información sobre el uso de memoria:');
 disp(['Memoria total: ' num2str(mem_info.MemAvailableAllArrays / (1024^2)) ' MB']);
 disp(['Memoria utilizada: ' num2str(mem_info.MemUsedMATLAB / (1024^2)) ' MB']);
 
+% Calcular la métrica de la relación calidad/tamaño
+metrica_relacion = calidades_niqe .* tamanos_archivos;
+
+% Encontrar la imagen con la mejor métrica
+[mejor_metrica, indice_mejor] = max(metrica_relacion);
+
 % Detener el temporizador y mostrar el tiempo de ejecución
 tiempo_ejecucion = toc;
 disp(['Tiempo de ejecución: ' num2str(tiempo_ejecucion) ' segundos']);
 
 % Mostrar la información de la mejor imagen
-disp('Mejor imagen:');
+disp(['Mejor imagen:']);
 disp(['  Ruta: ' nombres_imagenes{indice_mejor}]);
 disp(['  Tamaño del archivo: ' num2str(tamanos_archivos(indice_mejor)) ' KB']);
 disp(['  Calidad (NIQE): ' num2str(calidades_niqe(indice_mejor))]);
+disp(['  Métrica de Relación: ' num2str(mejor_metrica)]);
 
 % Guardar la información en un archivo de texto
 nombre_archivo = 'resultados.txt';
